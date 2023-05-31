@@ -8,7 +8,9 @@
 
 ## Statement-Level Control Structures
 
-**case** compare a given value against patterns until a match is found
+**case**
+
+Compare a given value against patterns until a match is found.
 
 ```elixir
 st = "value"
