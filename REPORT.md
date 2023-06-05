@@ -65,14 +65,12 @@ The condition provided to `if` must return true to execute what is inside the `d
 
 **Errors**
 
-These are exceptions.
-
 ```sh
 foo + 1
 ** (ArithmeticError) bad argument in arithmetic expression
 ```
 
-To raise an exception:
+To raise an error:
 
 `raise <Error>, <message>`
 
@@ -150,8 +148,32 @@ This will match after a try block whenever the block completes without a throw o
 ## Example Program
 
 ```elixir
+defmodule LOGPARSE do
+  def get_log(file_path) do
+    case File.read(file_path) do
+      {:ok, body} -> String.split(body, ~r{(\r\n|\r|\n)})
+      {:error, message} -> IO.puts(message)
+    end
+  end
 
+  def get_by_type(text) do
+    cond do
+      String.contains?(text, "INFO") -> text
+      String.contains?(text, "ERROR") -> text
+      String.contains?(text, "WARNING") -> text
+      true -> ""
+    end
+  end
+end
 
+log = LOGPARSE.get_log("./log.txt")
+relevant_lines = Enum.map(log, fn line -> LOGPARSE.get_by_type(line) end)
+cleaned = Enum.filter(relevant_lines, fn empty -> empty != "" end)
+errors = Enum.filter(cleaned, fn error -> String.contains?(error, "ERROR") end)
+
+if length(errors) == 0 do
+  IO.puts("Yay! No errors!")
+end
 ```
 
 ## Sources
