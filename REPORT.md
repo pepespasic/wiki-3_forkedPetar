@@ -2,7 +2,20 @@
 
 ## Data Types
 
+Like other programming languages, Elixir has various data types that it supports such as: integer, float, boolean, atom, tuple, list, and many other types. 
+Elixir is also dynamically typed language meaning it is not required to define data type in the code, thus when a program is ran all variables are checked during 
+runtime and assigned a data typing based on their value. Additionally, the Elixir language also comes with typespecs (optional feature) which are used for declaring 
+typed function signatures (or specifications) as well declaring custom types. This basically allows for a way to describe or document the expected type of a function 
+and allows the programmer to keep track of how the function is intended to work, improving the readability.
+
+
 ## Expressions
+
+An expression is a group or combination of values, variables, and operators that produce a result. In Elixir, expressions function the same way as other 
+programming languages with a few differences. In Elixir, there are no statements that are written as everything is considered an expression, meaning 
+every line will have some sort of value produced and returned. For instance, in the following expression we add two numbers together, `iex> 2 + 1` 
+it would then return a value `3`. The interactive shell(iex>) allows us to use that line as a standalone expression, and the result is automatically displayed 
+in the interactive shell. Like other languages an expression can be assigned to a variable like `x = 2 + 1` which then stores the result `3` inside of x.
 
 ## Assignment Statements
 
