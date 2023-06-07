@@ -62,13 +62,13 @@ Elixir natively supports maps and linked lists (in fact, all lists are implement
 
 **struct**  
 The following code defines the initial template struct, then you can assign additional instances by assigning the same pattern to new data:
-``` 
+```elixir 
 defmodule Class do
     defstruct code: "CSB-310", credits: 5, instructor: "Eric Lloyd"
 end
 ```
 then the next command produces the following output:
-```
+```elixir
 %Class{code: "AD-350", instructor: "Kyle Bastien"}  
 
 %Class{code: "AD-350", credits: 5, instructor: "Kyle Bastien"}
@@ -82,7 +82,7 @@ Even greater and more OOP-like functionality can be obtained by combining protoc
 
 **protocol**  
 Protocol is used to alter behavior of a module based on the data type of the input.
-```
+```elixir
 defmodule Utility do
   def type(value) when is_binary(value), do: "string"
   def type(value) when is_integer(value), do: "integer"
@@ -194,7 +194,11 @@ defmodule LOGPARSE do
   end
 end
 
-log = LOGPARSE.get_log("./log.txt")
+defmodule Logfile do
+    defstruct file: "./log.txt"
+end
+
+log = LOGPARSE.get_log(%Logfile.file)
 relevant_lines = Enum.map(log, fn line -> LOGPARSE.get_by_type(line) end)
 cleaned = Enum.filter(relevant_lines, fn empty -> empty != "" end)
 errors = Enum.filter(cleaned, fn error -> String.contains?(error, "ERROR") end)
