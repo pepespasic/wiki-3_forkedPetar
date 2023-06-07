@@ -1,8 +1,21 @@
-# The Elixer Programming Language
+# The Elixir Programming Language
 
 ## Data Types
 
+Like other programming languages, Elixir has various data types that it supports such as: integer, float, boolean, atom, tuple, list, and many other types. 
+Elixir is also dynamically typed language meaning it is not required to define data type in the code, thus when a program is ran all variables are checked during 
+runtime and assigned a data typing based on their value. Additionally, the Elixir language also comes with typespecs (optional feature) which are used for declaring 
+typed function signatures (or specifications) as well declaring custom types. This basically allows for a way to describe or document the expected type of a function 
+and allows the programmer to keep track of how the function is intended to work, improving the readability.
+
+
 ## Expressions
+
+An expression is a group or combination of values, variables, and operators that produce a result. In Elixir, expressions function the same way as other 
+programming languages with a few differences. In Elixir, there are no statements that are written as everything is considered an expression, meaning 
+every line will have some sort of value produced and returned. For instance, in the following expression we add two numbers together, `iex> 2 + 1` 
+it would then return a value `3`. The interactive shell(iex>) allows us to use that line as a standalone expression, and the result is automatically displayed 
+in the interactive shell. Like other languages an expression can be assigned to a variable like `x = 2 + 1` which then stores the result `3` inside of x.
 
 ## Assignment Statements
 
@@ -57,9 +70,37 @@ The condition provided to `if` must return true to execute what is inside the `d
 
 ## Subprograms
 
-## Abstract Data Types and Encapsulation Concepts (if there are any)
+## Abstract Data Types and Encapsulation Concepts (if there are any)  
+Elixir natively supports maps and linked lists (in fact, all lists are implemented as linked lists).  Other more complex data structures can be built from combinations of maps and lists.  In addition, Elixir allows the use of structs to group disparate data together under the same heading in a structured way.
 
-## Object-Oriented Programming
+**struct**  
+The following code defines the initial template struct, then you can assign additional instances by assigning the same pattern to new data:
+```elixir 
+defmodule Class do
+    defstruct code: "CSB-310", credits: 5, instructor: "Eric Lloyd"
+end
+```
+then the next command produces the following output:
+```elixir
+%Class{code: "AD-350", instructor: "Kyle Bastien"}  
+
+%Class{code: "AD-350", credits: 5, instructor: "Kyle Bastien"}
+```
+as you can see, the data that does not get remapped in the new instance carries over from the template.
+
+## Object-Oriented Programming  
+Being a functional language, Elixir does not support "objects" in the same sense as object-oriented languages such as Java.  However, it does specify "protocols" which provide some of the inheritance and polymorphism functions present in OOP.  Protocols are similar to interfaces in a language like Java, but they can be (and very often are) implemented many times within the same program to achieve different outcomes with similar data inputs.  
+
+Even greater and more OOP-like functionality can be obtained by combining protocols and structs.  The protocol can be used to provide functionality similar to that of an object's methods, while the struct provides organized data storage to go with that functionality.  In addition, Elixir has a similar concept to generic implementations by "deriving" the protocol implementation based upon the Any data type.
+
+**protocol**  
+Protocol is used to alter behavior of a module based on the data type of the input.
+```elixir
+defmodule Utility do
+  def type(value) when is_binary(value), do: "string"
+  def type(value) when is_integer(value), do: "integer"
+end
+```
 
 ## Exception Handling and Event Handling
 
@@ -166,7 +207,11 @@ defmodule LOGPARSE do
   end
 end
 
-log = LOGPARSE.get_log("./log.txt")
+defmodule Logfile do
+    defstruct file: "./log.txt"
+end
+
+log = LOGPARSE.get_log(%Logfile.file)
 relevant_lines = Enum.map(log, fn line -> LOGPARSE.get_by_type(line) end)
 cleaned = Enum.filter(relevant_lines, fn empty -> empty != "" end)
 errors = Enum.filter(cleaned, fn error -> String.contains?(error, "ERROR") end)
