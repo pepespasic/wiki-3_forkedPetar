@@ -1,4 +1,4 @@
-# The Elixer Programming Language
+# The Elixir Programming Language
 
 ## Data Types
 
@@ -70,9 +70,37 @@ The condition provided to `if` must return true to execute what is inside the `d
 
 ## Subprograms
 
-## Abstract Data Types and Encapsulation Concepts (if there are any)
+## Abstract Data Types and Encapsulation Concepts (if there are any)  
+Elixir natively supports maps and linked lists (in fact, all lists are implemented as linked lists).  Other more complex data structures can be built from combinations of maps and lists.  In addition, Elixir allows the use of structs to group disparate data together under the same heading in a structured way.
 
-## Object-Oriented Programming
+**struct**  
+The following code defines the initial template struct, then you can assign additional instances by assigning the same pattern to new data:
+```elixir 
+defmodule Class do
+    defstruct code: "CSB-310", credits: 5, instructor: "Eric Lloyd"
+end
+```
+then the next command produces the following output:
+```elixir
+%Class{code: "AD-350", instructor: "Kyle Bastien"}  
+
+%Class{code: "AD-350", credits: 5, instructor: "Kyle Bastien"}
+```
+as you can see, the data that does not get remapped in the new instance carries over from the template.
+
+## Object-Oriented Programming  
+Being a functional language, Elixir does not support "objects" in the same sense as object-oriented languages such as Java.  However, it does specify "protocols" which provide some of the inheritance and polymorphism functions present in OOP.  Protocols are similar to interfaces in a language like Java, but they can be (and very often are) implemented many times within the same program to achieve different outcomes with similar data inputs.  
+
+Even greater and more OOP-like functionality can be obtained by combining protocols and structs.  The protocol can be used to provide functionality similar to that of an object's methods, while the struct provides organized data storage to go with that functionality.  In addition, Elixir has a similar concept to generic implementations by "deriving" the protocol implementation based upon the Any data type.
+
+**protocol**  
+Protocol is used to alter behavior of a module based on the data type of the input.
+```elixir
+defmodule Utility do
+  def type(value) when is_binary(value), do: "string"
+  def type(value) when is_integer(value), do: "integer"
+end
+```
 
 ## Exception Handling and Event Handling
 
@@ -179,7 +207,11 @@ defmodule LOGPARSE do
   end
 end
 
-log = LOGPARSE.get_log("./log.txt")
+defmodule Logfile do
+    defstruct file: "./log.txt"
+end
+
+log = LOGPARSE.get_log(%Logfile.file)
 relevant_lines = Enum.map(log, fn line -> LOGPARSE.get_by_type(line) end)
 cleaned = Enum.filter(relevant_lines, fn empty -> empty != "" end)
 errors = Enum.filter(cleaned, fn error -> String.contains?(error, "ERROR") end)
